@@ -1,32 +1,9 @@
 import React, { Component } from 'react';
 import { GoogleApiWrapper } from 'google-maps-react'
-import logo from './logo.svg';
 import './App.css';
 import Map from './Map.js';
+
 class App extends Component {
-
-// define initial state
-state = {
-	locations: [
-		{title:'Indigo', location: {lat: 47.4918275, lng: 19.0391501}},
-		{title:'Rapaz', location: {lat: 47.4977522, lng: 19.070250999999985}},
-		{title:'Bors', location: {lat: 47.4967267, lng: 19.063548699999956}}
-		],
-	markers: [],
-
-	query: ''
-}
-
-
-
-// a function to populate the infoWindows
-addInfoToWindow = (event) =>{
-	console.log(event.target)
-}
-
-
-
-	
   render() {
     return (
 	<div className="App">	
@@ -46,7 +23,7 @@ addInfoToWindow = (event) =>{
 					</ol>
 				</div>		
 			</aside>
-			<Map locations={this.state.locations} infoWindow={this.state.myInfoWindow} markers={this.state.markers}/>
+			<Map google={this.props.google}/>
 		</div>
 		<footer>
 			<h3>© Bubicica designs and webz</h3>

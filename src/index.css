@@ -5,7 +5,7 @@ body {
   background-color: #E2EAEB;
 }
 
-h1, h3{
+h1, h3 {
 	text-align: center;
 	color: #8A405F;
 	background-color: #D8E3E5;
@@ -13,6 +13,16 @@ h1, h3{
 	margin: 0;
 	padding-top: 1.5%;
 	padding-bottom: 1.5%;
+}
+
+h4 {
+	color: #7A666A;
+	text-align: center;
+	font-size: 1.5em;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 
 aside {
@@ -37,6 +47,18 @@ footer {
 .map{
 	height: 84vh;
 	width: 100%;
+}
+
+.like-text {
+	text-align: center;
+	font-weight: 450;
+}
+
+.user-thumbnail {
+	display: block;
+	border-radius: 50%;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #search-list{
