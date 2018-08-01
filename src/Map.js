@@ -4,22 +4,22 @@ class Map extends Component {
 
 // define initial state
 state = {
-	locations: [
-		{title:'Indigo', location: {lat: 47.4918275, lng: 19.0391501}},
-		{title:'Rapaz', location: {lat: 47.4977522, lng: 19.070250999999985}},
-    {title:'Bors Gastrobar', location: {lat: 47.4967267, lng: 19.063548699999956}},
-    {title:'Buda Gourmet Bistro', location: {lat: 47.528095, lng: 19.037538}},
-    {title:'Biwako Ramen', location: {lat: 47.507306, lng: 19.062940}},
-    {title:'Hongkong Restaurant', location: {lat: 47.534545, lng: 19.082193}}
-    ],
+  locations: [
+	{title:'Indigo', location: {lat: 47.4918275, lng: 19.0391501}},
+	{title:'Rapaz', location: {lat: 47.4977522, lng: 19.070250999999985}},
+	{title:'Bors Gastrobar', location: {lat: 47.4967267, lng: 19.063548699999956}},
+	{title:'Buda Gourmet Bistro', location: {lat: 47.528095, lng: 19.037538}},
+	{title:'Biwako Ramen', location: {lat: 47.507306, lng: 19.062940}},
+	{title:'Hongkong Restaurant', location: {lat: 47.534545, lng: 19.082193}}
+	],
   markers: [],
-  query: '',
   infowindow: new this.props.google.maps.InfoWindow(),
   mapRef: React.createRef()
 }
 
 componentDidMount() {
   this.loadMap()
+  this.onLocationClick()
   fetch("https://randomuser.me/api/?results=6").then(res => res.json()).then(myJson => this.setState({users: myJson.results}))
 }
 
@@ -42,7 +42,7 @@ addMarkers = () => {
     const marker = new this.props.google.maps.Marker({
       position: {lat: location.location.lat, lng: location.location.lng},
       map: this.map,
-      title: location.title
+      title: location.title,
     })
 
    marker.addListener('click', () => {
@@ -67,6 +67,22 @@ populateInfoWindow = (marker, infowindow, user) => {
     })
   }
 }
+
+onLocationClick = () => {
+    const that = this
+
+    const displayInfowindow = (event) => {
+      const markerInd = this.state.markers.findIndex(marker => marker.title.toLowerCase() === event.target.innerText.toLowerCase())
+      that.populateInfoWindow(this.state.markers[markerInd], this.state.infowindow, this.state.users[markerInd])
+    }
+	
+    document.querySelector('.location-list').addEventListener('click', function (event) {
+      if (event.target && event.target.nodeName === "LI") {
+        displayInfowindow(event)
+      }
+    })
+  }
+
 
 render() {
    return(

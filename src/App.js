@@ -4,7 +4,30 @@ import './App.css';
 import Map from './Map.js';
 
 class App extends Component {
-  render() {
+	
+state = {
+	query: '',
+	places: ["Rapaz", "Bors Gastrobar", "Indigo", "Buda Gourmet Bistro", "Biwako Ramen", "Hongkong Restaurant"],
+	currentPlaces: ["Rapaz", "Bors Gastrobar", "Indigo", "Buda Gourmet Bistro", "Biwako Ramen", "Hongkong Restaurant"]
+}
+
+
+queryUpdate = (query) => {
+  this.setState({query: query})
+  this.setState({currentPlaces : []})
+  
+   if (query) {
+	    this.state.places.forEach((ele, ind) => {
+			if (ele.toLowerCase().includes(query.toLowerCase())) {
+			  this.setState((prevState) => ({currentPlaces: [...prevState.currentPlaces, ele]}))
+			}
+	})   
+   } else {
+	    this.setState({currentPlaces : this.state.places})
+   }
+}
+	
+render() {
     return (
 	<div className="App">	
 		<header>
@@ -13,17 +36,15 @@ class App extends Component {
 		<div className="flex-container">
 			<aside id="search-list">
 				<div id="search">
-					<input type="text" placeholder="Search for a restaurant"/>
+					<input type="text" placeholder="Search for a restaurant" onChange={(event) => this.queryUpdate(event.target.value)}/>
 				</div>
 				<div id="list">
-					<ol>
-						<li>Rapaz</li>
-						<li>Bors</li>
-						<li>Indigo</li>
+					<ol className="location-list">
+					{this.state.currentPlaces.map((place, i) => <li key={i}>{place}</li>)}
 					</ol>
 				</div>		
 			</aside>
-			<Map google={this.props.google}/>
+			<Map google={this.props.google} currentPlaces={this.state.currentPlaces}/>
 		</div>
 		<footer>
 			<h3>© Bubicica designs and webz</h3>
