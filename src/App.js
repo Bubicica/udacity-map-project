@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { GoogleApiWrapper } from 'google-maps-react'
 import './App.css';
 import Map from './Map.js';
+import Sidebar from './Sidebar.js';
 
 class App extends Component {
 	
@@ -68,17 +69,9 @@ render() {
 		<header>
 			<h1>Budapest Eats</h1>
 		</header>
+
 		<div className="flex-container">
-			<aside id="search-list">
-				<div id="search">
-					<input type="text" placeholder="Search for a restaurant" onChange={(event) => this.queryUpdate(event.target.value)}/>
-				</div>
-				<div id="list">
-					<ol className="location-list">
-					{this.state.currentLocations.map((location, i) => <li key={i}>{location.title}</li>)}
-					</ol>
-				</div>		
-			</aside>
+			<Sidebar queryUpdate={this.queryUpdate} currentLocations={this.state.currentLocations} users={this.state.users}/>
 			<Map google={this.props.google} currentLocations={this.state.currentLocations}
 			getLastOpenedWindow={this.getLastOpenedWindow} getLastMarkerClicked={this.getLastMarkerClicked} users={this.state.users}/>
 		</div>
