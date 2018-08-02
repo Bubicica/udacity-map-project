@@ -90,7 +90,6 @@ li {
   width: 100%;
 }
   
-  
  #search input {
   width: 100%;
   text-align:center;
@@ -99,6 +98,13 @@ li {
   font-size: 1.20em;
   border: none;
   outline: none;
+}
+
+.map-error{
+	text-align:center;
+	font-size: 22px;
+	padding-bottom: 8%;
+    padding-top: 8%;
 }
 
 /* ====================== Smaller device viewports ====================== */
