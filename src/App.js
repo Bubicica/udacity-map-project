@@ -6,25 +6,60 @@ import Map from './Map.js';
 class App extends Component {
 	
 state = {
+	locations: [
+	{title:'Indigo', location: {lat: 47.4918275, lng: 19.0391501}},
+	{title:'Rapaz', location: {lat: 47.4977522, lng: 19.070250999999985}},
+	{title:'Bors Gastrobar', location: {lat: 47.4967267, lng: 19.063548699999956}},
+	{title:'Buda Gourmet Bistro', location: {lat: 47.528095, lng: 19.037538}},
+	{title:'Biwako Ramen', location: {lat: 47.507306, lng: 19.062940}},
+	{title:'Hongkong Restaurant', location: {lat: 47.534545, lng: 19.082193}}
+	],
+	currentLocations: [
+		{title:'Indigo', location: {lat: 47.4918275, lng: 19.0391501}},
+		{title:'Rapaz', location: {lat: 47.4977522, lng: 19.070250999999985}},
+		{title:'Bors Gastrobar', location: {lat: 47.4967267, lng: 19.063548699999956}},
+		{title:'Buda Gourmet Bistro', location: {lat: 47.528095, lng: 19.037538}},
+		{title:'Biwako Ramen', location: {lat: 47.507306, lng: 19.062940}},
+		{title:'Hongkong Restaurant', location: {lat: 47.534545, lng: 19.082193}}
+	],
 	query: '',
-	places: ["Rapaz", "Bors Gastrobar", "Indigo", "Buda Gourmet Bistro", "Biwako Ramen", "Hongkong Restaurant"],
-	currentPlaces: ["Rapaz", "Bors Gastrobar", "Indigo", "Buda Gourmet Bistro", "Biwako Ramen", "Hongkong Restaurant"]
+	lastOpenedWindow: '',
+	lastMarkerClicked: ''
 }
 
+componentDidMount() {
+  fetch("https://randomuser.me/api/?results=6").then(res => res.json()).then(myJson => this.setState({users: myJson.results}))
+}
+
+getLastMarkerClicked = (marker) => {	
+	if (this.state.getLastMarkerClicked !== marker && this.state.lastMarkerClicked){
+		this.state.lastMarkerClicked.setAnimation(-1)
+	}
+	this.setState({lastMarkerClicked: marker})
+}
+
+getLastOpenedWindow = (infowindow) => {
+infowindow.marker = null
+this.setState({lastOpenedWindow: infowindow})
+}
 
 queryUpdate = (query) => {
   this.setState({query: query})
-  this.setState({currentPlaces : []})
+	this.setState({currentLocations : []})
+	this.state.lastMarkerClicked.setAnimation(-1)
   
    if (query) {
-	    this.state.places.forEach((ele, ind) => {
-			if (ele.toLowerCase().includes(query.toLowerCase())) {
-			  this.setState((prevState) => ({currentPlaces: [...prevState.currentPlaces, ele]}))
+	    this.state.locations.forEach((ele) => {
+			if (ele.title.toLowerCase().includes(query.toLowerCase())) {
+			  this.setState((prevState) => ({currentLocations: [...prevState.currentLocations, ele]}))
 			}
 	})   
    } else {
-	    this.setState({currentPlaces : this.state.places})
-   }
+	    this.setState({currentLocations : this.state.locations})
+	 }
+	 if (this.state.lastOpenedWindow !== ''){
+		this.state.lastOpenedWindow.close()
+	 }
 }
 	
 render() {
@@ -40,11 +75,12 @@ render() {
 				</div>
 				<div id="list">
 					<ol className="location-list">
-					{this.state.currentPlaces.map((place, i) => <li key={i}>{place}</li>)}
+					{this.state.currentLocations.map((location, i) => <li key={i}>{location.title}</li>)}
 					</ol>
 				</div>		
 			</aside>
-			<Map google={this.props.google} currentPlaces={this.state.currentPlaces}/>
+			<Map google={this.props.google} currentLocations={this.state.currentLocations}
+			getLastOpenedWindow={this.getLastOpenedWindow} getLastMarkerClicked={this.getLastMarkerClicked} users={this.state.users}/>
 		</div>
 		<footer>
 			<h3>© Bubicica designs and webz</h3>

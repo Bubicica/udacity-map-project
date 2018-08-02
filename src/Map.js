@@ -4,14 +4,6 @@ class Map extends Component {
 
 // define initial state
 state = {
-  locations: [
-	{title:'Indigo', location: {lat: 47.4918275, lng: 19.0391501}},
-	{title:'Rapaz', location: {lat: 47.4977522, lng: 19.070250999999985}},
-	{title:'Bors Gastrobar', location: {lat: 47.4967267, lng: 19.063548699999956}},
-	{title:'Buda Gourmet Bistro', location: {lat: 47.528095, lng: 19.037538}},
-	{title:'Biwako Ramen', location: {lat: 47.507306, lng: 19.062940}},
-	{title:'Hongkong Restaurant', location: {lat: 47.534545, lng: 19.082193}}
-	],
   markers: [],
   infowindow: new this.props.google.maps.InfoWindow(),
   mapRef: React.createRef()
@@ -20,7 +12,18 @@ state = {
 componentDidMount() {
   this.loadMap()
   this.onLocationClick()
-  fetch("https://randomuser.me/api/?results=6").then(res => res.json()).then(myJson => this.setState({users: myJson.results}))
+}
+
+componentDidUpdate(){
+  this.state.markers.forEach((marker) => {
+    marker.setVisible(false)
+    this.props.currentLocations.forEach((location) => {
+      if (marker.title.toLowerCase() === location.title.toLowerCase()) {
+        marker.setVisible(true)
+      }
+    }
+  )
+  })
 }
 
 loadMap() {
@@ -38,7 +41,7 @@ loadMap() {
 }
 
 addMarkers = () => {
-  this.state.locations.forEach((location, index) => {
+  this.props.currentLocations.forEach((location, index) => {
     const marker = new this.props.google.maps.Marker({
       position: {lat: location.location.lat, lng: location.location.lng},
       map: this.map,
@@ -46,7 +49,7 @@ addMarkers = () => {
     })
 
    marker.addListener('click', () => {
-      this.populateInfoWindow(marker, this.state.infowindow, this.state.users[index])
+      this.populateInfoWindow(marker, this.state.infowindow, this.props.users[index])
     })
 
     this.setState((state) => ({
@@ -65,15 +68,20 @@ populateInfoWindow = (marker, infowindow, user) => {
     infowindow.addListener('closeclick', function () {
       infowindow.marker = null
     })
+    this.props.getLastOpenedWindow(infowindow)
+
+    // animating markers
+    this.props.getLastMarkerClicked(marker)
+    marker.setAnimation(this.props.google.maps.Animation.BOUNCE)
+    
   }
 }
 
 onLocationClick = () => {
     const that = this
-
     const displayInfowindow = (event) => {
       const markerInd = this.state.markers.findIndex(marker => marker.title.toLowerCase() === event.target.innerText.toLowerCase())
-      that.populateInfoWindow(this.state.markers[markerInd], this.state.infowindow, this.state.users[markerInd])
+      that.populateInfoWindow(this.state.markers[markerInd], this.state.infowindow, this.props.users[markerInd])
     }
 	
     document.querySelector('.location-list').addEventListener('click', function (event) {
@@ -82,7 +90,6 @@ onLocationClick = () => {
       }
     })
   }
-
 
 render() {
    return(
