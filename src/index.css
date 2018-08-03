@@ -71,6 +71,11 @@ ol, li {
 	list-style-type: none;
 }
 
+.address{
+	font-style: italic;
+	word-wrap: normal;
+}
+
 ol{
 	padding: 0;
 	margin: 0;

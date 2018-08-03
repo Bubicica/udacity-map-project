@@ -2,13 +2,13 @@
 
 ## Table of Contents
 
-* [Install Instructions](#install instructions)
+* [Install Instructions](#install-instructions)
 * [Usage](#usage)
 * [Contributing](#contributing)
 * [License](#license)
-* [Kudos] (#kudos)
+* [Kudos](#kudos)
 
-## Install Instaructions
+## Install Instructions
 
 In order to use the application the necessary npm dependencies need to be installed with:
 npm install

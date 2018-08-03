@@ -39,7 +39,7 @@ loadMap() {
 
         this.map = new this.props.google.maps.Map(node, mapConfig)
         this.addMarkers()
-        } else {
+    } else {
 	    this.setState({errorWithMap: "Error while loading your map, sorry :("})
         }
     }
@@ -68,9 +68,17 @@ fillInfoWindow = (marker, infowindow, user) => {
     if (infowindow.marker !== marker) {
         infowindow.marker = marker
 	
+	// check if the marker title macthes the name of the venue, and set it's address
+	let address = ''
+	this.props.venueInfo.forEach((venue) => {
+		if (venue.venue.name === marker.title){
+			address = venue.venue.location.formattedAddress.join(", ")
+		}
+	})
+	
 	// create the content here if there are users in the props
 	if (this.props.users){
-		infowindow.setContent("<h4>" + marker.title + "</h4><p><img src='" + user.picture.thumbnail + "' alt='user profile picture' class='user-thumbnail'/></p><p class='like-text'>" + user.name.first[0].toUpperCase() + user.name.first.substring(1) + " " + user.name.last[0].toUpperCase() + user.name.last.substring(1) +" recently liked this place!</p>")	
+		infowindow.setContent("<h4>" + marker.title + "</h4><p class='address'>"+ address +"</p><p><img src='" + user.picture.thumbnail + "' alt='user profile picture' class='user-thumbnail'/></p><p class='like-text'>" + user.name.first[0].toUpperCase() + user.name.first.substring(1) + " " + user.name.last[0].toUpperCase() + user.name.last.substring(1) +" recently liked this place!</p>")	
 	}
     
 	// pop-open that window
@@ -111,12 +119,18 @@ onLocationClick = () => {
 }
 
 render() {
-   return(
-      <div className="map" role="application" ref={this.state.mapRef}>
-        {this.state.errorWithMap && <div className="map-error">{this.state.errorWithMap}</div>}
-      </div>
-   );
-   }
+    return(
+        <div className="map">
+            {this.state.errorWithMap ? 
+            <div className="map-error">
+                <p>{this.state.errorWithMap}</p>
+            </div> :	
+            <div className="map" role="application" ref={this.state.mapRef}>
+                {this.state.errorWithMap && <div className="map-error">{this.state.errorWithMap}</div>}
+            </div>}
+	    </div>
+    );
+    }
 };
 
 export default Map;
