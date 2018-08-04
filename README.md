@@ -13,12 +13,15 @@ The project shows a map with a couple of neat places to dine in Budapest - the p
 ## Install Instructions
 
 In order to use the application the necessary npm dependencies need to be installed with:
+```
 npm install
-
+```
 Next the server needs to be started with:
+```
 npm start
+```
 
-Finally you can reach the project on port:3000
+Finally you can reach the project on port:3000 but it should open automatically for you.
 
 ## Usage
 
@@ -39,4 +42,5 @@ The project is open source, however the basics and the project instructions were
 ## Kudos
 
 * A *huge* thanks to Edoh Kodjo - his useful guide on the Udacity site helped me tremendously
-* The third party API used in this project was from https://randomuser.me/ - thanks for letting me use it for free! (also check out their site, it has the Konami code implemented)
+* One of the third party apps used for this project was Foursquare's API, to get more details about the locations, venue - it is via this app, that the street name is displayed
+* Another third party API used in this project was from https://randomuser.me/ - thanks for letting me use it for free! (also check out their site, it has the Konami code implemented)
