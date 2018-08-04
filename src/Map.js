@@ -78,7 +78,7 @@ fillInfoWindow = (marker, infowindow, user) => {
 	
 	// create the content here if there are users in the props
 	if (this.props.users){
-		infowindow.setContent("<h4>" + marker.title + "</h4><p class='address'>"+ address +"</p><p><img src='" + user.picture.thumbnail + "' alt='user profile picture' class='user-thumbnail'/></p><p class='like-text'>" + user.name.first[0].toUpperCase() + user.name.first.substring(1) + " " + user.name.last[0].toUpperCase() + user.name.last.substring(1) +" recently liked this place!</p>")	
+		infowindow.setContent("<div tabIndex='0'><h4>" + marker.title + "</h4><p class='address'>"+ address +"</p><p><img src='" + user.picture.thumbnail + "' alt='a picture of the user " + user.name.first[0].toUpperCase() + user.name.first.substring(1) + " " + user.name.last[0].toUpperCase() + user.name.last.substring(1) + "' class='user-thumbnail'/></p><p class='like-text'>" + user.name.first[0].toUpperCase() + user.name.first.substring(1) + " " + user.name.last[0].toUpperCase() + user.name.last.substring(1) +" recently liked this place!</p></div>")	
 	}
     
 	// pop-open that window

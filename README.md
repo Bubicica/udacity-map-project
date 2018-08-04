@@ -1,5 +1,7 @@
 # Map Project
 
+The project shows a map with a couple of neat places to dine in Budapest - the project has been made for the Udacity FEND.
+
 ## Table of Contents
 
 * [Install Instructions](#install-instructions)
